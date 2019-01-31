@@ -4,9 +4,10 @@ package uilive
 
 import (
 	"fmt"
-	"github.com/mattn/go-isatty"
 	"syscall"
 	"unsafe"
+
+	isatty "github.com/mattn/go-isatty"
 )
 
 var kernel32 = syscall.NewLazyDLL("kernel32.dll")
@@ -42,7 +43,7 @@ type consoleScreenBufferInfo struct {
 	maximumWindowSize coord
 }
 
-func (w *Writer) clearLines() {
+func (w *Writer) ClearLines() {
 	f, ok := w.Out.(FdWriter)
 	if ok && !isatty.IsTerminal(f.Fd()) {
 		ok = false

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gosuri/uilive"
+	"github.com/Kerrigan29a/uilive"
 )
 
 func main() {

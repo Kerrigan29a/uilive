@@ -68,7 +68,7 @@ func (w *Writer) Flush() error {
 	if len(w.buf.Bytes()) == 0 {
 		return nil
 	}
-	w.clearLines()
+	w.ClearLines()
 
 	lines := 0
 	for _, b := range w.buf.Bytes() {
@@ -132,7 +132,7 @@ func (b *bypass) Write(p []byte) (n int, err error) {
 	b.writer.mtx.Lock()
 	defer b.writer.mtx.Unlock()
 
-	b.writer.clearLines()
+	b.writer.ClearLines()
 	b.writer.lineCount = 0
 	return b.writer.Out.Write(p)
 }
