@@ -68,7 +68,6 @@ func (w *Writer) Flush() error {
 	if len(w.buf.Bytes()) == 0 {
 		return nil
 	}
-	w.ClearLines()
 
 	lines := 0
 	for _, b := range w.buf.Bytes() {
