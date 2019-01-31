@@ -60,15 +60,15 @@ func (w *Writer) ClearLines() {
 	procGetConsoleScreenBufferInfo.Call(fd, uintptr(unsafe.Pointer(&csbi)))
 
 	for i := 0; i < w.lineCount; i++ {
-		clearLine()
+		clearLine(csbi, fd)
 		// move the cursor up
 		csbi.cursorPosition.y--
 		procSetConsoleCursorPosition.Call(fd, uintptr(*(*int32)(unsafe.Pointer(&csbi.cursorPosition))))
 	}
-	clearLine()
+	clearLine(csbi, fd)
 }
 
-func clearLine() {
+func clearLine(csbi consoleScreenBufferInfo, fd uintptr) {
 	cursor := coord{
 		x: csbi.window.left,
 		y: csbi.window.top + csbi.cursorPosition.y,
