@@ -4,7 +4,6 @@ package uilive
 
 import (
 	"fmt"
-	"os"
 	"syscall"
 	"unsafe"
 
@@ -72,26 +71,9 @@ func (w *Writer) ClearLines() {
 func clearLine(csbi consoleScreenBufferInfo, fd uintptr) {
 	cursor := coord{
 		x: csbi.window.left,
-		//y: csbi.window.top + csbi.cursorPosition.y,
 		y: csbi.cursorPosition.y,
 	}
 	var count, w dword
 	count = dword(csbi.size.x)
-	logFile(fmt.Sprintf("coord.x = %v; coord.y = %v; count = %v; csbi.window.left = %v; csbi.window.right = %v; csbi.window.top = %v; csbi.window.bottom = %v; csbi.size.x = %v; csbi.size.y = %v\n",
-		cursor.x, cursor.y, count, csbi.window.left, csbi.window.right, csbi.window.top, csbi.window.bottom, csbi.size.x, csbi.size.y))
 	procFillConsoleOutputCharacter.Call(fd, uintptr(' '), uintptr(count), *(*uintptr)(unsafe.Pointer(&cursor)), uintptr(unsafe.Pointer(&w)))
-	logFile(fmt.Sprintf("w = %v\n", w))
-}
-
-func logFile(msg string) {
-	f, err := os.OpenFile("uilive.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		panic(err)
-	}
-
-	defer f.Close()
-
-	if _, err = f.WriteString(msg); err != nil {
-		panic(err)
-	}
 }
