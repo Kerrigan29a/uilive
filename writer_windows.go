@@ -4,6 +4,7 @@ package uilive
 
 import (
 	"fmt"
+	"os"
 	"syscall"
 	"unsafe"
 
@@ -75,5 +76,19 @@ func clearLine(csbi consoleScreenBufferInfo, fd uintptr) {
 	}
 	var count, w dword
 	count = dword(csbi.size.x)
+	logFile(fmt.Sprintf("coord.x = %v; coord.y = %v; count = %v;\n", cursor.x, cursor.y, count))
 	procFillConsoleOutputCharacter.Call(fd, uintptr(' '), uintptr(count), *(*uintptr)(unsafe.Pointer(&cursor)), uintptr(unsafe.Pointer(&w)))
+}
+
+func logFile(msg string) {
+	f, err := os.OpenFile("uilive.log", os.O_APPEND|os.O_WRONLY, 0600)
+	if err != nil {
+		panic(err)
+	}
+
+	defer f.Close()
+
+	if _, err = f.WriteString(msg); err != nil {
+		panic(err)
+	}
 }
