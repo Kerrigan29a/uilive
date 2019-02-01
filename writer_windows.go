@@ -78,7 +78,7 @@ func clearLine(csbi consoleScreenBufferInfo, fd uintptr) {
 	count = dword(csbi.size.x)
 	logFile(fmt.Sprintf("coord.x = %v; coord.y = %v; count = %v; csbi.window.left = %v; csbi.window.right = %v; csbi.window.top = %v; csbi.window.bottom = %v; csbi.size.x = %v; csbi.size.y = %v\n",
 		cursor.x, cursor.y, count, csbi.window.left, csbi.window.right, csbi.window.top, csbi.window.bottom, csbi.size.x, csbi.size.y))
-	procFillConsoleOutputCharacter.Call(fd, uintptr('@'), uintptr(count), *(*uintptr)(unsafe.Pointer(&cursor)), uintptr(unsafe.Pointer(&w)))
+	procFillConsoleOutputCharacter.Call(fd, uintptr(' '), uintptr(count), *(*uintptr)(unsafe.Pointer(&cursor)), uintptr(unsafe.Pointer(&w)))
 	logFile(fmt.Sprintf("w = %v\n", w))
 }
 
