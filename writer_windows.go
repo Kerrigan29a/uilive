@@ -72,7 +72,8 @@ func (w *Writer) ClearLines() {
 func clearLine(csbi consoleScreenBufferInfo, fd uintptr) {
 	cursor := coord{
 		x: csbi.window.left,
-		y: csbi.window.top + csbi.cursorPosition.y,
+		//y: csbi.window.top + csbi.cursorPosition.y,
+		y: csbi.cursorPosition.y,
 	}
 	var count, w dword
 	count = dword(csbi.size.x)
